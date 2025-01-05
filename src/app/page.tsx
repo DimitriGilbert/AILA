@@ -14,6 +14,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table"
 
 type BitOption = {
   value: 1 | 2 | 4;
@@ -158,15 +166,112 @@ export default function Home() {
     <>
       <Toaster />
       <main className="container mx-auto space-y-8 p-4">
-        <section className="space-y-4 text-center">
-          <h1 className="text-4xl font-bold">AILA License Generator</h1>
-          <p className="text-lg text-muted-foreground">
-            Generate your AI License Agreement by selecting the appropriate
-            options below.
-          </p>
+        <section className="space-y-4">
+          <div className="flex flex-col gap-4 text-lg text-muted-foreground">
+            <div className="flex flex-col md:flex-row md:gap-4">
+              <div className="flex-1">
+                <div className="p-4">
+                  <h2 className="pb-2 text-center text-2xl font-bold">
+                    What is AILA ?
+                  </h2>
+                  <p className="text-justify">
+                    The <strong>AI Licence Agreement (AILA)</strong> is designed
+                    to bring clarity and transparency to the world of AI and
+                    content creation.
+                  </p>
+                  <p className="text-justify">
+                    Whether you're a content creator, a researcher, or an AI
+                    model developer, AILA provides a simple yet powerful way to
+                    define and communicate the terms of use for AI-related
+                    resources.
+                  </p>
+                </div>
+
+                <div className="p-4">
+                  <h2 className="pb-2 text-center text-2xl font-bold">
+                    What Makes AILA Unique ?
+                  </h2>
+                  <p className="text-justify">
+                    AILA uses a <strong>bitmask system</strong> to clearly
+                    outline the openness and permissions of a licence.
+                  </p>
+                  <p className="text-justify">
+                    By breaking down permissions into intuitive "bits", AILA
+                    ensures that everyone knows exactly what is allowed—and
+                    under what conditions.
+                  </p>
+                </div>
+
+                <div className="p-4">
+                  <h2 className="pb-2 text-center text-2xl font-bold">
+                    Why AILA Matters
+                  </h2>
+                  <p className="text-justify">
+                    AILA bridges the gap between human understanding and machine
+                    readability, ensuring that AI development respects the
+                    rights of content creators while fostering innovation.
+                    Whether you're protecting your creative work or building the
+                    next generation of AI models, AILA provides the clarity and
+                    flexibility you need.
+                  </p>
+                  <p className="text-justify">
+                    Join us in shaping a future where AI and creativity thrive
+                    together, responsibly and transparently.
+                  </p>
+                </div>
+              </div>
+              <div className="flex-1">
+                <h2 className="pt-4 pb-2 text-center text-2xl font-bold">
+                  The AILA Bits
+                </h2>
+                <p className="mb-4">Each category uses the same bit values to indicate availability:</p>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[100px]">Bit</TableHead>
+                      <TableHead>Meaning</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font-mono">0</TableCell>
+                      <TableCell>Unavailable</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-mono">1</TableCell>
+                      <TableCell>Available for personal use*</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-mono">2</TableCell>
+                      <TableCell>Available for research and academic use</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-mono">4</TableCell>
+                      <TableCell>Available for commercial use</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+                <p className="mt-4 text-sm text-muted-foreground">* For Training Data, bit 1 means "Available if open source or public" instead of personal use</p>
+                
+                <p className="mt-6 mb-2">These bits apply to three categories:</p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li><strong>Training Weight Availability</strong>: Access to the model's training weights</li>
+                  <li><strong>Trained Model Availability</strong>: Access to the trained model itself</li>
+                  <li><strong>Training Data Availability</strong>: Access to the data used for training</li>
+                </ul>
+                
+                <p className="mt-4">
+                  Bits can be combined (e.g., 3 = personal + research, 7 = all uses) to form a clear, machine-readable license.
+                </p>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section className="space-y-4">
+          <h2 id="license-generator" className="text-center text-4xl font-bold">
+            AILA License Generator
+          </h2>
           <div className="flex justify-center gap-4">
             <Button
               variant={licenseType === "C" ? "default" : "outline"}
@@ -252,25 +357,25 @@ export default function Home() {
                   options={dataOptions}
                 />
               </div>
-
-              <div className="flex justify-center">
-                <Button
-                  size="lg"
-                  onClick={generateLicense}
-                  className="w-full max-w-md"
-                  disabled={
-                    generateLicenseMutation.isPending ||
-                    (!licenseType && !usedAIModel)
-                  }
-                >
-                  {generateLicenseMutation.isPending
-                    ? "Generating..."
-                    : "Generate License"}
-                </Button>
-              </div>
             </>
           )}
-
+          <div className="space-y-4 rounded-lg p-4">
+            <div className="flex justify-center">
+              <Button
+                size="lg"
+                onClick={generateLicense}
+                className="w-full max-w-md"
+                disabled={
+                  generateLicenseMutation.isPending ||
+                  (!licenseType && !usedAIModel)
+                }
+              >
+                {generateLicenseMutation.isPending
+                  ? "Generating..."
+                  : "Generate License"}
+              </Button>
+            </div>
+          </div>
           <div className="space-y-4 rounded-lg bg-muted p-4">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold">Current License:</h3>

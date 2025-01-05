@@ -1,11 +1,11 @@
 import { remark } from "remark"
 import html from "remark-html"
 
-async function getMarkdownContent(relativePath: string): Promise<string> {
+async function getMarkdownContent(filePath: string): Promise<string> {
   try {
-    const response = await fetch(`/${relativePath}`)
+    const response = await fetch(`${process.env.PUBLIC_URL || "http://localhost:3001"}/licenses/${filePath}`)
     if (!response.ok) {
-      throw new Error(`Failed to fetch ${relativePath}`)
+      throw new Error(`Failed to fetch ${filePath}`)
     }
     const fileContents = await response.text()
     const processedContent = await remark()
@@ -14,7 +14,7 @@ async function getMarkdownContent(relativePath: string): Promise<string> {
     
     return processedContent.toString()
   } catch (error) {
-    console.error(`Error reading markdown file: ${relativePath}`, error)
+    console.error(`Error reading markdown file: ${filePath}`, error)
     return ""
   }
 }
@@ -31,22 +31,22 @@ export async function getLicenseContent(code: string): Promise<string> {
   
   // Special case for AILA-999-C
   if (code === "AILA-999-C") {
-    return getMarkdownContent("licenses/AILA-999-C.md")
+    return getMarkdownContent("AILA-999-C.md")
   }
 
   // Add content for each component
-  parts.push(`licenses/weights/${weights}.md`)
-  parts.push(`licenses/model/${model}.md`)
-  parts.push(`licenses/data/${data}.md`)
+  parts.push(`weights/${weights}.md`)
+  parts.push(`model/${model}.md`)
+  parts.push(`data/${data}.md`)
   
   // Add variant content if applicable
   if (type === "C" && variant) {
-    parts.push("licenses/AILA-xxx-C-1.md")
+    parts.push("AILA-xxx-C-1.md")
   }
 
   // Add B license content if applicable
   if (type === "B") {
-    parts.push("licenses/AILA-xxx-B.md")
+    parts.push("AILA-xxx-B.md")
   }
 
   // Load and combine all parts
