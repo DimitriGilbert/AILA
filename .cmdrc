@@ -1,0 +1,51 @@
+CMDLOGGER=nope
+
+if [[ "$SHELL" == *"zsh" ]]; then
+    # Create history files if they don't exist
+    touch ./.cmd_history
+    
+    # Set up standard history
+    HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
+    HISTSIZE=10000
+    SAVEHIST=10000
+    
+    # Function to log commands to secondary history
+    _log_to_secondary_history() {
+        local cmd="$1"
+        # Only log if command exists and isn't our logging function
+        if [[ -n "$cmd" && "$cmd" != "_log_to_secondary_history"* ]]; then
+            # Log with timestamp to local history
+            echo "$(date '+%Y-%m-%d %H:%M:%S') $cmd" >> ./.cmd_history
+        fi
+    }
+
+    # Add our logger to the preexec array (runs before each command)
+    preexec_functions+=(_log_to_secondary_history)
+
+
+elif [[ "$SHELL" == *"bash" ]]; then
+    # Create history files if they don't exist
+    touch ~/.analysis_history
+    touch ./.cmd_history
+    
+    # Set up standard history
+    HISTFILE=~/.bash_history
+    HISTSIZE=10000
+    HISTFILESIZE=10000
+    
+    # Function to log commands to secondary history
+    _log_to_secondary_history() {
+        local cmd="$(history 1)"
+        # Remove command number from history output
+        cmd="${cmd#*  }"
+        # Only log if command exists and isn't our logging function
+        if [[ -n "$cmd" && "$cmd" != "_log_to_secondary_history"* ]]; then
+            # Log with timestamp to local history
+            echo "$(date '+%Y-%m-%d %H:%M:%S') $cmd" >> ./.cmd_history
+        fi
+    }
+
+    # Use PROMPT_COMMAND for bash (equivalent to preexec)
+    PROMPT_COMMAND="_log_to_secondary_history; ${PROMPT_COMMAND}"
+fi
+
