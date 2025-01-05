@@ -84,25 +84,27 @@ AILA-project.org is a website that allows you to create AILA licences.
 
 ### TODO
 
-* [ ] Bit Picker component
+* [x] Bit Picker component
     "bit pickers" are component with :
         * bit explanation
         * 3 switches (from shadcn) one for each value (1, 2, 4) 
         * for each switch, a concise text and a hover-card with further explanation
-* [ ] licence text for each bit and bit value, store in public asset in md files
-    * [ ] weights/{0,1,2,3,4,5,6,7}.md
-    * [ ] model/{0,1,2,3,4,5,6,7}.md
-    * [ ] data/{0,1,2,3,4,5,6,7}.md
-    * [ ] AILA-999-C.md
-    * [ ] AILA-xxx-C-1.md
-* [ ] Home page
+* [~] licence text for each bit and bit value, store in public asset in md files
+    distinct text for each bit and bit value will help in creating better fitting licences
+    * [~] weights/{0,1,2,3,4,5,6,7}.md
+    * [~] model/{0,1,2,3,4,5,6,7}.md
+    * [~] data/{0,1,2,3,4,5,6,7}.md
+    * [x] AILA-999-C.md
+    * [x] AILA-xxx-C-1.md
+* [~] Home page
     * [ ] presentation hiatus
-    * [ ] licence generator
-        * [ ] choose Creator or Facteur
-            * [ ] if creator, switch for -999-C licence, stop form
-            * [ ] if creator, select if AI model has been used to create the content (for -b licence)
-            * [ ] if creator, switch for -C-1 licence variant
-        * [ ] 3 "Bit picker" (one for each bit)
+    * [~] licence generator
+        * [x] choose Creator or Facteur
+            * [x] if creator, switch for -999-C licence, stop form
+            * [x] if creator, select if AI model has been used to create the content (for -b licence)
+            * [x] if creator, switch for -C-1 licence variant
+        * [~] 3 "Bit picker" (one for each bit)
+            put the 3 on the same line for screen big enough
         * [ ] a generate button
             * [ ] generate the licence
                 * [ ] fetch all md part for the licence
@@ -111,7 +113,9 @@ AILA-project.org is a website that allows you to create AILA licences.
             * [ ] display button to copy the licence to the clipboard
             * [ ] display button to download the licence as a markdown or html file
             * [ ] display the licence
-    * [ ] clear, readable, responsive, accessible, light/dark theme (follow system preference)
+    * [ ] design
+        * [ ] blue-light grey light/dark theme (follow system preference + toggle)
+        * [ ] clear, readable, responsive, accessible,
 * [ ] licences page
     * [ ] /licenses is an index page with a list of all licences variations
     * [ ] use enxtjs prendering to prerender every licences variations, accessable by url, eg: /licences/AILA-777-C-1

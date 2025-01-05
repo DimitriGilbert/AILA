@@ -1,37 +1,313 @@
-import Link from "next/link";
+"use client";
 
-export default function HomePage() {
+import { BitPicker } from "~/components/BitPicker";
+import { Button } from "~/components/ui/button";
+import { Switch } from "~/components/ui/switch";
+import { useState } from "react";
+import { Copy, Download } from "lucide-react";
+import { Toaster, toast } from "sonner";
+import { getLicenseContent } from "~/lib/markdown";
+import { useMutation } from "@tanstack/react-query";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
+
+type BitOption = {
+  value: 1 | 2 | 4;
+  label: string;
+  description: string;
+};
+
+const weightOptions: BitOption[] = [
+  {
+    value: 1,
+    label: "Personal Use",
+    description: "Available for personal use only",
+  },
+  {
+    value: 2,
+    label: "Research & Academic",
+    description: "Available for research and academic purposes",
+  },
+  {
+    value: 4,
+    label: "Commercial Use",
+    description: "Available for commercial use",
+  },
+];
+
+const modelOptions: BitOption[] = [
+  {
+    value: 1,
+    label: "Personal Use",
+    description: "Model available for personal use only",
+  },
+  {
+    value: 2,
+    label: "Research & Academic",
+    description: "Model available for research and academic purposes",
+  },
+  {
+    value: 4,
+    label: "Commercial Use",
+    description: "Model available for commercial use",
+  },
+];
+
+const dataOptions: BitOption[] = [
+  {
+    value: 1,
+    label: "Open Source/Public",
+    description: "Available if open source or public",
+  },
+  {
+    value: 2,
+    label: "Research & Academic",
+    description: "Available for research and academic use",
+  },
+  {
+    value: 4,
+    label: "Commercial Use",
+    description: "Available for commercial use",
+  },
+];
+
+export default function Home() {
+  const [licenseType, setLicenseType] = useState<"B" | "C" | "F" | null>(null);
+  const [weights, setWeights] = useState(0);
+  const [model, setModel] = useState(0);
+  const [data, setData] = useState(0);
+  const [isC999, setIsC999] = useState(false);
+  const [isC1Variant, setIsC1Variant] = useState(false);
+  const [usedAIModel, setUsedAIModel] = useState(false);
+  const [licenseContent, setLicenseContent] = useState<string>("");
+
+  const generateLicenseMutation = useMutation({
+    mutationFn: async (code: string) => {
+      return getLicenseContent(code);
+    },
+    onSuccess: (content) => {
+      setLicenseContent(content);
+      toast.success("License generated successfully");
+    },
+    onError: (error) => {
+      console.error("Failed to generate license:", error);
+      toast.error("Failed to generate license");
+    },
+  });
+
+  const generateLicenseCode = () => {
+    if (!licenseType && !usedAIModel) return "";
+
+    if (isC999) {
+      return "AILA-999-C";
+    }
+
+    const licenseCode = `${weights}${model}${data}`;
+
+    if (usedAIModel) {
+      return `AILA-${licenseCode}-B`;
+    }
+
+    let license = `AILA-${licenseCode}-${licenseType}`;
+    if (licenseType === "C" && isC1Variant) {
+      license += "-1";
+    }
+
+    return license;
+  };
+
+  const generateLicense = () => {
+    const code = generateLicenseCode();
+    generateLicenseMutation.mutate(code);
+  };
+
+  const copyToClipboard = async () => {
+    const license = generateLicenseCode();
+    await navigator.clipboard.writeText(licenseContent || license);
+    toast.success("License copied to clipboard");
+  };
+
+  const handleBitChange =
+    (setter: (value: number) => void) => (value: number) => {
+      setter(value);
+      setLicenseContent(""); // Clear license content when bits change
+    };
+
+  const downloadLicense = async (format: "md" | "html") => {
+    const license = generateLicenseCode();
+    const content = licenseContent || license;
+    const mimeType = format === "md" ? "text/markdown" : "text/html";
+    const extension = format === "md" ? "md" : "html";
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${license.toLowerCase()}.${extension}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast.success(`License downloaded as ${format.toUpperCase()}`);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
+    <>
+      <Toaster />
+      <main className="container mx-auto space-y-8 p-4">
+        <section className="space-y-4 text-center">
+          <h1 className="text-4xl font-bold">AILA License Generator</h1>
+          <p className="text-lg text-muted-foreground">
+            Generate your AI License Agreement by selecting the appropriate
+            options below.
+          </p>
+        </section>
+
+        <section className="space-y-4">
+          <div className="flex justify-center gap-4">
+            <Button
+              variant={licenseType === "C" ? "default" : "outline"}
+              onClick={() => setLicenseType("C")}
+              disabled={usedAIModel}
+            >
+              Creator License
+            </Button>
+            <Button
+              variant={licenseType === "F" ? "default" : "outline"}
+              onClick={() => setLicenseType("F")}
+              disabled={usedAIModel}
+            >
+              Facteur License
+            </Button>
+          </div>
+
+          {(licenseType === "C" || usedAIModel) && (
+            <div className="space-y-4">
+              <div className="flex justify-center">
+                <div className="w-fit space-y-4">
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      checked={usedAIModel}
+                      onCheckedChange={(checked) => {
+                        setUsedAIModel(checked);
+                        if (checked) {
+                          setIsC999(false);
+                          setIsC1Variant(false);
+                        }
+                      }}
+                    />
+                    <span>
+                      Content was created using an AILA licensed model (B
+                      license)
+                    </span>
+                  </div>
+                  {!usedAIModel && (
+                    <div className="flex items-center space-x-2">
+                      <Switch checked={isC999} onCheckedChange={setIsC999} />
+                      <span>Use AILA-999-C (No AI usage allowed)</span>
+                    </div>
+                  )}
+
+                  {!isC999 && !usedAIModel && (
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                        checked={isC1Variant}
+                        onCheckedChange={setIsC1Variant}
+                      />
+                      <span>Enable case-by-case exceptions (C-1 variant)</span>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
+          )}
+
+          {!isC999 && (
+            <>
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                <BitPicker
+                  title="Training Weight Availability"
+                  description="Specify the availability of training weights : "
+                  value={weights}
+                  onChange={handleBitChange(setWeights)}
+                  options={weightOptions}
+                />
+
+                <BitPicker
+                  title="Trained Model Availability"
+                  description="Specify the availability of the trained model : "
+                  value={model}
+                  onChange={handleBitChange(setModel)}
+                  options={modelOptions}
+                />
+
+                <BitPicker
+                  title="Training Data Availability"
+                  description="Specify the availability of training data : "
+                  value={data}
+                  onChange={handleBitChange(setData)}
+                  options={dataOptions}
+                />
+              </div>
+
+              <div className="flex justify-center">
+                <Button
+                  size="lg"
+                  onClick={generateLicense}
+                  className="w-full max-w-md"
+                  disabled={
+                    generateLicenseMutation.isPending ||
+                    (!licenseType && !usedAIModel)
+                  }
+                >
+                  {generateLicenseMutation.isPending
+                    ? "Generating..."
+                    : "Generate License"}
+                </Button>
+              </div>
+            </>
+          )}
+
+          <div className="space-y-4 rounded-lg bg-muted p-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold">Current License:</h3>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={copyToClipboard}>
+                  <Copy className="mr-2 h-4 w-4" />
+                  Copy
+                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm">
+                      <Download className="mr-2 h-4 w-4" />
+                      Download
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => downloadLicense("md")}>
+                      As Markdown
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => downloadLicense("html")}>
+                      As HTML
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
-          </Link>
-        </div>
-      </div>
-    </main>
+            <pre className="rounded border bg-background p-4 font-mono">
+              {generateLicenseCode()}
+            </pre>
+            {licenseContent && (
+              <div className="prose dark:prose-invert mt-4 max-w-none">
+                <div dangerouslySetInnerHTML={{ __html: licenseContent }} />
+              </div>
+            )}
+          </div>
+        </section>
+      </main>
+    </>
   );
 }
