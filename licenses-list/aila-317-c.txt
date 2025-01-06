@@ -1,0 +1,75 @@
+1:"$Sreact.fragment"
+2:I[316,["222","static/chunks/222-477b40acb5271840.js","173","static/chunks/173-855c731ec6dd7122.js","962","static/chunks/962-80ce5b2cec7585bf.js","804","static/chunks/804-f9c63b37550b5a0c.js","177","static/chunks/app/layout-3b01b513c8b9646d.js"],"Providers"]
+3:I[5244,[],""]
+4:I[3866,[],""]
+6:I[6213,[],"OutletBoundary"]
+8:I[6213,[],"MetadataBoundary"]
+a:I[6213,[],"ViewportBoundary"]
+c:I[4835,[],""]
+:HL["/AILA/_next/static/media/e11418ac562b8ac1-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/AILA/_next/static/css/7e3bda2fab8ec339.css","style"]
+0:{"P":null,"b":"jgglGX514wCfQuklrlK5O","p":"/AILA","c":["","licenses-list","aila-317-c"],"i":false,"f":[[["",{"children":["licenses-list",{"children":[["code","aila-317-c","d"],{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/AILA/_next/static/css/7e3bda2fab8ec339.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","html",null,{"lang":"en","suppressHydrationWarning":true,"children":["$","body",null,{"className":"__variable_daf08a","children":["$","$L2",null,{"children":["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[],[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]]],"forbidden":"$undefined","unauthorized":"$undefined"}]}]}]}]]}],{"children":["licenses-list",["$","$1","c",{"children":[null,["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children","licenses-list","children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["code","aila-317-c","d"],["$","$1","c",{"children":[null,["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children","licenses-list","children","$0:f:0:1:2:children:2:children:0","children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":["__PAGE__",["$","$1","c",{"children":["$L5",null,["$","$L6",null,{"children":"$L7"}]]}],{},null,false]},null,false]},null,false]},null,false],["$","$1","h",{"children":[null,["$","$1","GnMD2SW3uRGTU-6jyW1W4",{"children":[["$","$L8",null,{"children":"$L9"}],["$","$La",null,{"children":"$Lb"}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}]]}],false]],"m":"$undefined","G":["$c","$undefined"],"s":false,"S":true}
+b:[["$","meta","0",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+9:[["$","meta","0",{"charSet":"utf-8"}],["$","title","1",{"children":"AILA - AI License Agreement"}],["$","meta","2",{"name":"description","content":"Generate your AI License Agreement"}],["$","link","3",{"rel":"icon","href":"/favicon.ico"}]]
+7:null
+d:I[8173,["173","static/chunks/173-855c731ec6dd7122.js","644","static/chunks/app/licenses-list/%5Bcode%5D/page-d058cbbf38bbe7b5.js"],""]
+e:T608,<h1>Training Weights Availability</h1>
+<p>The training weights are available for:</p>
+<ul>
+<li>Personal use</li>
+<li>Research and academic use</li>
+</ul>
+<p>This means the weights can be used by individuals for personal projects and by researchers/academics for research purposes, but not for commercial applications.</p>
+
+
+<h1>Trained Model: Personal Use Only</h1>
+<p>The trained AI model is available for personal use only.</p>
+<h2>Terms</h2>
+<ol>
+<li>
+<p>Permitted Uses:</p>
+<ul>
+<li>Personal projects</li>
+<li>Individual learning</li>
+<li>Non-commercial experimentation</li>
+<li>Private research</li>
+</ul>
+</li>
+<li>
+<p>Access Includes:</p>
+<ul>
+<li>Model inference capabilities</li>
+<li>Basic documentation</li>
+<li>Example usage code</li>
+<li>Personal API access (if applicable)</li>
+</ul>
+</li>
+<li>
+<p>Restrictions:</p>
+<ul>
+<li>No commercial use</li>
+<li>No academic or institutional use</li>
+<li>No redistribution</li>
+<li>No hosting as a service</li>
+</ul>
+</li>
+<li>
+<p>Requirements:</p>
+<ul>
+<li>Must maintain all license notices</li>
+<li>Must not share access credentials</li>
+<li>Must not expose model through public APIs</li>
+</ul>
+</li>
+</ol>
+
+
+<h1>Training Data Availability</h1>
+<p>The training data is available for all uses:</p>
+<ul>
+<li>Open source/public use</li>
+<li>Research and academic use</li>
+<li>Commercial use</li>
+</ul>
+<p>This means the training data can be freely accessed and used by anyone for any purpose, including when it's open source/public, for academic research, and for commercial applications.</p>
+5:["$","main",null,{"className":"container mx-auto space-y-8 p-4","children":[["$","nav",null,{"children":["$","$Ld",null,{"href":"/licenses-list","className":"text-sm text-muted-foreground hover:text-primary","children":"← Back to Licenses"}]}],["$","article",null,{"className":"rounded-lg border bg-card p-6","children":[["$","h1",null,{"className":"mb-8 text-4xl font-bold","children":["License: ","AILA-317-C"]}],["$","div",null,{"dangerouslySetInnerHTML":{"__html":"$e"},"className":"prose prose-slate dark:prose-invert prose-headings:font-semibold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-headings:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-strong:text-foreground"}]]}]]}]
