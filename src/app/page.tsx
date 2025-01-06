@@ -21,7 +21,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "~/components/ui/table"
+} from "~/components/ui/table";
 
 type BitOption = {
   value: 1 | 2 | 4;
@@ -33,7 +33,7 @@ const weightOptions: BitOption[] = [
   {
     value: 1,
     label: "Personal Use",
-    description: "Available for personal use only",
+    description: "Available for personal use",
   },
   {
     value: 2,
@@ -47,41 +47,12 @@ const weightOptions: BitOption[] = [
   },
 ];
 
-const modelOptions: BitOption[] = [
-  {
-    value: 1,
-    label: "Personal Use",
-    description: "Model available for personal use only",
-  },
-  {
-    value: 2,
-    label: "Research & Academic",
-    description: "Model available for research and academic purposes",
-  },
-  {
-    value: 4,
-    label: "Commercial Use",
-    description: "Model available for commercial use",
-  },
-];
+const modelOptions: BitOption[] = weightOptions;
 
-const dataOptions: BitOption[] = [
-  {
-    value: 1,
-    label: "Open Source/Public",
-    description: "Available if open source or public",
-  },
-  {
-    value: 2,
-    label: "Research & Academic",
-    description: "Available for research and academic use",
-  },
-  {
-    value: 4,
-    label: "Commercial Use",
-    description: "Available for commercial use",
-  },
-];
+const dataOptions: BitOption[] = weightOptions;
+// @ts-expect-error it exists ! 
+dataOptions[0].description =
+  "Available if open source or public";
 
 export default function Home() {
   const [licenseType, setLicenseType] = useState<"B" | "C" | "F" | null>(null);
@@ -181,9 +152,8 @@ export default function Home() {
                   </p>
                   <p className="text-justify">
                     Whether you're a content creator, a researcher, or an AI
-                    model developer, AILA provides a simple yet powerful way to
-                    define and communicate the terms of use for AI-related
-                    resources.
+                    model developer, AILA provides a simple way to define and
+                    communicate the terms of use for AI-related resources.
                   </p>
                 </div>
 
@@ -210,6 +180,8 @@ export default function Home() {
                     AILA bridges the gap between human understanding and machine
                     readability, ensuring that AI development respects the
                     rights of content creators while fostering innovation.
+                  </p>
+                  <p>
                     Whether you're protecting your creative work or building the
                     next generation of AI models, AILA provides the clarity and
                     flexibility you need.
@@ -221,10 +193,13 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex-1">
-                <h2 className="pt-4 pb-2 text-center text-2xl font-bold">
+                <h2 className="pb-2 pt-4 text-center text-2xl font-bold">
                   The AILA Bits
                 </h2>
-                <p className="mb-4">Each category uses the same bit values to indicate availability:</p>
+                <p className="mb-4">
+                  Each category uses the same bit values to indicate
+                  availability:
+                </p>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -243,7 +218,9 @@ export default function Home() {
                     </TableRow>
                     <TableRow>
                       <TableCell className="font-mono">2</TableCell>
-                      <TableCell>Available for research and academic use</TableCell>
+                      <TableCell>
+                        Available for research and academic use
+                      </TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell className="font-mono">4</TableCell>
@@ -251,17 +228,32 @@ export default function Home() {
                     </TableRow>
                   </TableBody>
                 </Table>
-                <p className="mt-4 text-sm text-muted-foreground">* For Training Data, bit 1 means "Available if open source or public" instead of personal use</p>
-                
-                <p className="mt-6 mb-2">These bits apply to three categories:</p>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li><strong>Training Weight Availability</strong>: Access to the model's training weights</li>
-                  <li><strong>Trained Model Availability</strong>: Access to the trained model itself</li>
-                  <li><strong>Training Data Availability</strong>: Access to the data used for training</li>
+                <p className="mt-4 text-sm text-muted-foreground">
+                  * For Training Data, bit 1 means "Available if open source or
+                  public" instead of personal use
+                </p>
+
+                <p className="mb-2 mt-6">
+                  These bits apply to three categories:
+                </p>
+                <ul className="list-disc space-y-2 pl-6">
+                  <li>
+                    <strong>Training Weight Availability</strong>: Access to the
+                    model's training weights
+                  </li>
+                  <li>
+                    <strong>Trained Model Availability</strong>: Access to the
+                    trained model itself
+                  </li>
+                  <li>
+                    <strong>Training Data Availability</strong>: Access to the
+                    data used for training
+                  </li>
                 </ul>
-                
+
                 <p className="mt-4">
-                  Bits can be combined (e.g., 3 = personal + research, 7 = all uses) to form a clear, machine-readable license.
+                  Bits can be combined (e.g., 3 = personal + research, 7 = all
+                  uses) to form a clear, machine-readable license.
                 </p>
               </div>
             </div>
@@ -278,14 +270,14 @@ export default function Home() {
               onClick={() => setLicenseType("C")}
               disabled={usedAIModel}
             >
-              Creator License
+              I create content
             </Button>
             <Button
               variant={licenseType === "F" ? "default" : "outline"}
               onClick={() => setLicenseType("F")}
               disabled={usedAIModel}
             >
-              Facteur License
+              I train models
             </Button>
           </div>
 
@@ -305,14 +297,14 @@ export default function Home() {
                       }}
                     />
                     <span>
-                      Content was created using an AILA licensed model (B
-                      license)
+                      Content was created with the help of an AI model.
                     </span>
                   </div>
+
                   {!usedAIModel && (
                     <div className="flex items-center space-x-2">
                       <Switch checked={isC999} onCheckedChange={setIsC999} />
-                      <span>Use AILA-999-C (No AI usage allowed)</span>
+                      <span>No AI usage allowed (Use AILA-999-C)</span>
                     </div>
                   )}
 
@@ -322,7 +314,7 @@ export default function Home() {
                         checked={isC1Variant}
                         onCheckedChange={setIsC1Variant}
                       />
-                      <span>Enable case-by-case exceptions (C-1 variant)</span>
+                      <span>Allow case-by-case exceptions (C-1 variant)</span>
                     </div>
                   )}
                 </div>
