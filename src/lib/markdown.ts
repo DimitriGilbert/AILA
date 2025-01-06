@@ -1,14 +1,21 @@
+/// <reference types="bun-types" />
+
 import { remark } from "remark"
 import html from "remark-html"
 
 async function getMarkdownContent(filePath: string): Promise<string> {
-  try {
-    const response = await fetch(`${process.env.PUBLIC_URL || "http://localhost:3001"}/licenses/${filePath}`)
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${filePath}`)
-    }
-    const fileContents = await response.text()
+  // Server-side only
+  if (typeof window !== 'undefined') {
+    throw new Error('getMarkdownContent can only be called server-side')
+  }
 
+  try {
+    // Dynamic imports for server-side only modules
+    const { readFile } = await import('fs/promises')
+    const { join } = await import('path')
+    
+    const fullPath = join(process.cwd(), 'public', 'licenses', filePath)
+    const fileContents = await readFile(fullPath, 'utf-8')
     const processedContent = await remark()
       .use(html)
       .process(fileContents)

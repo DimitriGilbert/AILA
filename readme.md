@@ -105,17 +105,17 @@ AILA-project.org is a website that allows you to create AILA licences.
             * [x] if creator, switch for -C-1 licence variant
         * [~] 3 "Bit picker" (one for each bit)
             put the 3 on the same line for screen big enough
-        * [ ] a generate button
-            * [ ] generate the licence
-                * [ ] fetch all md part for the licence
-                * [ ] merge them
-                * [ ] parse md to html
-            * [ ] display button to copy the licence to the clipboard
-            * [ ] display button to download the licence as a markdown or html file
-            * [ ] display the licence
-    * [ ] design
-        * [ ] blue-light grey light/dark theme (follow system preference + toggle)
-        * [ ] clear, readable, responsive, accessible,
-* [ ] licences page
-    * [ ] /licenses is an index page with a list of all licences variations
-    * [ ] use enxtjs prendering to prerender every licences variations, accessable by url, eg: /licences/AILA-777-C-1
+        * [x] a generate button
+            * [x] generate the licence
+                * [x] fetch all md part for the licence
+                * [x] merge them
+                * [x] parse md to html
+            * [x] display button to copy the licence to the clipboard
+            * [x] display button to download the licence as a markdown or html file
+            * [x] display the licence
+    * [x] design
+        * [x] blue-light grey light/dark theme (follow system preference + toggle)
+        * [x] clear, readable, responsive, accessible,
+* [x] licences page
+    * [x] /licenses is an index page with a list of all licences variations
+    * [x] use enxtjs prendering to prerender every licences variations, accessable by url, eg: /licences/AILA-777-C-1
