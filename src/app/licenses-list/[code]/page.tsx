@@ -3,31 +3,34 @@ import { generateLicenseVariations } from "~/lib/licenses";
 import Link from "next/link";
 
 interface Props {
-  params: {
+  params: Promise<{
     code: string;
-  };
+  }>;
 }
 
 export default async function LicensePage({ params }: Props) {
-  const {code} = await params
-  const content = await getLicenseContent(code.toUpperCase());
+  const resolvedParams = await params;
+  const content = await getLicenseContent(resolvedParams.code.toUpperCase());
 
   return (
     <main className="container mx-auto space-y-8 p-4">
       <nav>
         <Link
-          href="/licenses"
+          href="/licenses-list"
           className="text-sm text-muted-foreground hover:text-primary"
         >
           ← Back to Licenses
         </Link>
       </nav>
 
-      <article className="prose dark:prose-invert max-w-none">
+      <article className="rounded-lg border bg-card p-6">
         <h1 className="mb-8 text-4xl font-bold">
-          License: {code.toUpperCase()}
+          License: {resolvedParams.code.toUpperCase()}
         </h1>
-        <div dangerouslySetInnerHTML={{ __html: content }} />
+        <div 
+          dangerouslySetInnerHTML={{ __html: content }}
+          className="prose prose-slate dark:prose-invert prose-headings:font-semibold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-headings:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-strong:text-foreground"
+        />
       </article>
     </main>
   );

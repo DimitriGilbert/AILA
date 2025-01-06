@@ -90,7 +90,7 @@ export default function LicensesPage() {
   return (
     <main className="container mx-auto space-y-8 p-4">
       <section>
-        <div>
+        <div className="prose prose-slate dark:prose-invert max-w-none">
           <h2 className="text-center text-2xl font-bold">
             Licence Targets: Creator, and Model trainers
           </h2>
@@ -98,11 +98,11 @@ export default function LicensesPage() {
             AILA offers three tailored sub-licences to address the needs of
             different stakeholders:
           </p>
-          <ul>
+          <ul className="space-y-4">
             <li>
               <strong>C (Creator)</strong>: For content creators to specify how
               their work can be used in AI training.
-              <ul>
+              <ul className="mt-2">
                 <li>
                   Example: <strong>AILA-777-C</strong> means content is
                   available for AI training only if weights, models, and
@@ -122,7 +122,7 @@ export default function LicensesPage() {
               <strong>B (Built With)</strong>: For content creators to inform
               users that their work was created using AI models under specific
               AILA terms.
-              <ul>
+              <ul className="mt-2">
                 <li>
                   Example: <strong>AILA-777-B</strong> indicates the content was
                   built using a model compliant with <strong>AILA-777-F</strong>
@@ -134,7 +134,7 @@ export default function LicensesPage() {
               <strong>F (Facteur)</strong>: For AI model creators to communicate
               what resources (weights, models, training data) are available and
               for what purposes.
-              <ul>
+              <ul className="mt-2">
                 <li>
                   Example: <strong>AILA-777-F</strong> specifies the
                   availability of weights, models, and training data for various

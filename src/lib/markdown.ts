@@ -8,6 +8,7 @@ async function getMarkdownContent(filePath: string): Promise<string> {
       throw new Error(`Failed to fetch ${filePath}`)
     }
     const fileContents = await response.text()
+
     const processedContent = await remark()
       .use(html)
       .process(fileContents)
