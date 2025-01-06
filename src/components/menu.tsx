@@ -20,16 +20,16 @@ export function Menu() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link href="/#license-generator" legacyBehavior passHref>
+          <Link href="/#license-selector" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Generator
+              Selector
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/licenses-list" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Licences List
+              licenses List
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

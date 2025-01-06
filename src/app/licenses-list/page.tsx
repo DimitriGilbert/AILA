@@ -95,7 +95,7 @@ export default function LicensesPage() {
             Licence Targets: Creator, and Model trainers
           </h2>
           <p>
-            AILA offers three tailored sub-licences to address the needs of
+            AILA offers three tailored sub-licenses to address the needs of
             different stakeholders:
           </p>
           <ul className="space-y-4">

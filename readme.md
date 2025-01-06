@@ -35,7 +35,7 @@ Training data is :
 
 ## Licence targets
 
-there are 3 "sub licences", C, B and F.
+there are 3 "sub licenses", C, B and F.
 
 C and B for content creators, F for model creators.
 
@@ -73,7 +73,7 @@ And what kind of training data is available.
 
 ## AILA-project.org
 
-AILA-project.org is a website that allows you to create AILA licences.
+AILA-project.org is a website that allows you to create AILA licenses.
 
 ### tech stack
 
@@ -90,7 +90,7 @@ AILA-project.org is a website that allows you to create AILA licences.
         * 3 switches (from shadcn) one for each value (1, 2, 4) 
         * for each switch, a concise text and a hover-card with further explanation
 * [~] licence text for each bit and bit value, store in public asset in md files
-    distinct text for each bit and bit value will help in creating better fitting licences
+    distinct text for each bit and bit value will help in creating better fitting licenses
     * [~] weights/{0,1,2,3,4,5,6,7}.md
     * [~] model/{0,1,2,3,4,5,6,7}.md
     * [~] data/{0,1,2,3,4,5,6,7}.md
@@ -116,6 +116,6 @@ AILA-project.org is a website that allows you to create AILA licences.
     * [x] design
         * [x] blue-light grey light/dark theme (follow system preference + toggle)
         * [x] clear, readable, responsive, accessible,
-* [x] licences page
-    * [x] /licenses is an index page with a list of all licences variations
-    * [x] use enxtjs prendering to prerender every licences variations, accessable by url, eg: /licences/AILA-777-C-1
+* [x] licenses page
+    * [x] /licenses is an index page with a list of all licenses variations
+    * [x] use enxtjs prendering to prerender every licenses variations, accessable by url, eg: /licenses/AILA-777-C-1

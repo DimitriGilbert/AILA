@@ -6,6 +6,9 @@ import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
 const config = {
+  output: 'export', // Enable static export for GitHub Pages
+  basePath: process.env.NODE_ENV === 'production' ? '/AILA' : '', // Replace with your repository name
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/AILA/' : '', // Replace with your repository name
   typescript: {
     ignoreBuildErrors: true,  // Ignore TS errors during build
   },

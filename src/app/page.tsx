@@ -4,16 +4,7 @@ import { BitPicker } from "~/components/BitPicker";
 import { Button } from "~/components/ui/button";
 import { Switch } from "~/components/ui/switch";
 import { useState } from "react";
-import { Copy, Download } from "lucide-react";
-import { Toaster, toast } from "sonner";
-import { getLicenseContent } from "~/lib/markdown";
-import { useMutation } from "@tanstack/react-query";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+import { Toaster } from "sonner";
 import {
   Table,
   TableBody,
@@ -22,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
+import Link from "next/link";
 
 type BitOption = {
   value: 1 | 2 | 4;
@@ -50,9 +42,8 @@ const weightOptions: BitOption[] = [
 const modelOptions: BitOption[] = weightOptions;
 
 const dataOptions: BitOption[] = weightOptions;
-// @ts-expect-error it exists ! 
-dataOptions[0].description =
-  "Available if open source or public";
+// @ts-expect-error it exists !
+dataOptions[0].description = "Available if open source or public";
 
 export default function Home() {
   const [licenseType, setLicenseType] = useState<"B" | "C" | "F" | null>(null);
@@ -62,76 +53,34 @@ export default function Home() {
   const [isC999, setIsC999] = useState(false);
   const [isC1Variant, setIsC1Variant] = useState(false);
   const [usedAIModel, setUsedAIModel] = useState(false);
-  const [licenseContent, setLicenseContent] = useState<string>("");
-
-  const generateLicenseMutation = useMutation({
-    mutationFn: async (code: string) => {
-      return getLicenseContent(code);
-    },
-    onSuccess: (content) => {
-      setLicenseContent(content);
-      toast.success("License generated successfully");
-    },
-    onError: (error) => {
-      console.error("Failed to generate license:", error);
-      toast.error("Failed to generate license");
-    },
-  });
 
   const generateLicenseCode = () => {
     if (!licenseType && !usedAIModel) return "";
 
     if (isC999) {
-      return "AILA-999-C";
+      return "aila-999-c";
     }
 
     const licenseCode = `${weights}${model}${data}`;
 
     if (usedAIModel) {
-      return `AILA-${licenseCode}-B`;
+      return `aila-${licenseCode}-b`;
     }
 
-    let license = `AILA-${licenseCode}-${licenseType}`;
+    let license = `aila-${licenseCode}-${licenseType}`;
     if (licenseType === "C" && isC1Variant) {
       license += "-1";
     }
 
-    return license;
+    return license.toLowerCase();
   };
 
-  const generateLicense = () => {
-    const code = generateLicenseCode();
-    generateLicenseMutation.mutate(code);
+  const handleBitChange = (setter: (value: number) => void) => (value: number) => {
+    setter(value);
   };
 
-  const copyToClipboard = async () => {
-    const license = generateLicenseCode();
-    await navigator.clipboard.writeText(licenseContent || license);
-    toast.success("License copied to clipboard");
-  };
-
-  const handleBitChange =
-    (setter: (value: number) => void) => (value: number) => {
-      setter(value);
-      setLicenseContent(""); // Clear license content when bits change
-    };
-
-  const downloadLicense = async (format: "md" | "html") => {
-    const license = generateLicenseCode();
-    const content = licenseContent || license;
-    const mimeType = format === "md" ? "text/markdown" : "text/html";
-    const extension = format === "md" ? "md" : "html";
-    const blob = new Blob([content], { type: mimeType });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${license.toLowerCase()}.${extension}`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    toast.success(`License downloaded as ${format.toUpperCase()}`);
-  };
+  const licenseCode = generateLicenseCode();
+  const licenseUrl = licenseCode ? `${process.env.NEXT_PUBLIC_BASE_URL}/licenses-list/${licenseCode}` : null;
 
   return (
     <>
@@ -261,14 +210,15 @@ export default function Home() {
         </section>
 
         <section className="space-y-4">
-          <h2 id="license-generator" className="text-center text-4xl font-bold">
-            AILA License Generator
+          <h2 id="license-selector" className="text-center text-4xl font-bold">
+            AILA License Selector
           </h2>
           <div className="flex justify-center gap-4">
             <Button
               variant={licenseType === "C" ? "default" : "outline"}
               onClick={() => setLicenseType("C")}
               disabled={usedAIModel}
+              className="text-lg font-bold py-2 px-4 border-2 border-primary"
             >
               I create content
             </Button>
@@ -276,6 +226,7 @@ export default function Home() {
               variant={licenseType === "F" ? "default" : "outline"}
               onClick={() => setLicenseType("F")}
               disabled={usedAIModel}
+              className="text-lg font-bold py-2 px-4 border-2 border-primary"
             >
               I train models
             </Button>
@@ -296,9 +247,7 @@ export default function Home() {
                         }
                       }}
                     />
-                    <span>
-                      Content was created with the help of an AI model.
-                    </span>
+                    <span>Content was created with the help of an AI model.</span>
                   </div>
 
                   {!usedAIModel && (
@@ -310,10 +259,7 @@ export default function Home() {
 
                   {!isC999 && !usedAIModel && (
                     <div className="flex items-center space-x-2">
-                      <Switch
-                        checked={isC1Variant}
-                        onCheckedChange={setIsC1Variant}
-                      />
+                      <Switch checked={isC1Variant} onCheckedChange={setIsC1Variant} />
                       <span>Allow case-by-case exceptions (C-1 variant)</span>
                     </div>
                   )}
@@ -323,85 +269,47 @@ export default function Home() {
           )}
 
           {!isC999 && (
-            <>
-              <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                <BitPicker
-                  title="Training Weight Availability"
-                  description="Specify the availability of training weights : "
-                  value={weights}
-                  onChange={handleBitChange(setWeights)}
-                  options={weightOptions}
-                />
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+              <BitPicker
+                title="Training Weight Availability"
+                description="Specify the availability of training weights : "
+                value={weights}
+                onChange={handleBitChange(setWeights)}
+                options={weightOptions}
+              />
 
-                <BitPicker
-                  title="Trained Model Availability"
-                  description="Specify the availability of the trained model : "
-                  value={model}
-                  onChange={handleBitChange(setModel)}
-                  options={modelOptions}
-                />
+              <BitPicker
+                title="Trained Model Availability"
+                description="Specify the availability of the trained model : "
+                value={model}
+                onChange={handleBitChange(setModel)}
+                options={modelOptions}
+              />
 
-                <BitPicker
-                  title="Training Data Availability"
-                  description="Specify the availability of training data : "
-                  value={data}
-                  onChange={handleBitChange(setData)}
-                  options={dataOptions}
-                />
-              </div>
-            </>
+              <BitPicker
+                title="Training Data Availability"
+                description="Specify the availability of training data : "
+                value={data}
+                onChange={handleBitChange(setData)}
+                options={dataOptions}
+              />
+            </div>
           )}
+
           <div className="space-y-4 rounded-lg p-4">
             <div className="flex justify-center">
-              <Button
-                size="lg"
-                onClick={generateLicense}
-                className="w-full max-w-md"
-                disabled={
-                  generateLicenseMutation.isPending ||
-                  (!licenseType && !usedAIModel)
-                }
-              >
-                {generateLicenseMutation.isPending
-                  ? "Generating..."
-                  : "Generate License"}
-              </Button>
-            </div>
-          </div>
-          <div className="space-y-4 rounded-lg bg-muted p-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-semibold">Current License:</h3>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={copyToClipboard}>
-                  <Copy className="mr-2 h-4 w-4" />
-                  Copy
+              {licenseUrl ? (
+                <Link href={`/licenses-list/${licenseCode}`} className="w-full max-w-md">
+                  <Button size="lg" className="w-full">
+                    View License <strong>{licenseCode.toUpperCase()}</strong>
+                  </Button>
+                </Link>
+              ) : (
+                <Button size="lg" className="w-full max-w-md" disabled>
+                  Select Options
                 </Button>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm">
-                      <Download className="mr-2 h-4 w-4" />
-                      Download
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => downloadLicense("md")}>
-                      As Markdown
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => downloadLicense("html")}>
-                      As HTML
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+              )}
             </div>
-            <pre className="rounded border bg-background p-4 font-mono">
-              {generateLicenseCode()}
-            </pre>
-            {licenseContent && (
-              <div className="prose dark:prose-invert mt-4 max-w-none">
-                <div dangerouslySetInnerHTML={{ __html: licenseContent }} />
-              </div>
-            )}
           </div>
         </section>
       </main>
